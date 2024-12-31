@@ -6,11 +6,11 @@ import java.io.*;
 import java.nio.*;
 
 public class Login {
-    
-
-    
-    private static String path = "C:\\Users\\fatma\\OneDrive\\Masaüstü\\Users.txt";
+    	
 	
+	private static String path = "src/user/usersFile.txt";
+	
+
 	private static File file = new File(path);
 
 	
@@ -49,7 +49,7 @@ public class Login {
     
     public static void addUserToFile(String path, String userName, String password, String name, int ID) {
     	try (FileWriter writer = new FileWriter(path, true)){
-    		writer.write(userName+" "+password +" "+name+" "+ID +"\n");   
+    		writer.write(userName+","+password +","+name+","+ID +"\n");   
     	}    
         catch (Exception e) {} 
     	}
@@ -86,6 +86,17 @@ public class Login {
 	public static void setFile(File file) {
 		Login.file = file;
 	}
-    	
+    
+	public static String getPath() {
+		return path;
+	}
+
+
+
+
+	public static void setPath(String path) {
+		Login.path = path;
+	}
+
 }
     

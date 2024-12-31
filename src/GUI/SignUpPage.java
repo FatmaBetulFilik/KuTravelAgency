@@ -28,6 +28,7 @@ public class SignUpPage extends JFrame {
 	private JButton CreateAccountButton;
 	private JLabel messageLabel;
 	private JLabel ErrorMessage;
+	private JButton cancelButton;
 
 
 	public static void main(String[] args) {
@@ -59,15 +60,15 @@ public class SignUpPage extends JFrame {
 		contentPane.add(NameLabel);
 		
 		JLabel UserNameLabel = new JLabel("Username");
-		UserNameLabel.setBounds(291, 290, 80, 13);
+		UserNameLabel.setBounds(291, 260, 80, 13);
 		contentPane.add(UserNameLabel);
 		
 		JLabel IDLabel = new JLabel("ID");
-		IDLabel.setBounds(291, 336, 45, 13);
+		IDLabel.setBounds(291, 319, 45, 13);
 		contentPane.add(IDLabel);
 		
 		JLabel PasswordLabel = new JLabel("Password");
-		PasswordLabel.setBounds(291, 379, 45, 13);
+		PasswordLabel.setBounds(291, 365, 45, 13);
 		contentPane.add(PasswordLabel);
 		
 		JLabel PasswordConfirmationLabel = new JLabel("Confirm Password");
@@ -81,16 +82,16 @@ public class SignUpPage extends JFrame {
 		
 		UserNameText = new JTextField();
 		UserNameText.setColumns(10);
-		UserNameText.setBounds(423, 287, 96, 19);
+		UserNameText.setBounds(423, 257, 96, 19);
 		contentPane.add(UserNameText);
 		
 		IDText = new JTextField();
 		IDText.setColumns(10);
-		IDText.setBounds(423, 333, 96, 19);
+		IDText.setBounds(423, 316, 96, 19);
 		contentPane.add(IDText);
 		
 		PasswordText = new JPasswordField();
-		PasswordText.setBounds(423, 376, 96, 19);
+		PasswordText.setBounds(423, 362, 96, 19);
 		contentPane.add(PasswordText);
 		
 		ConfirmationPasswordText = new JPasswordField();
@@ -141,7 +142,7 @@ public class SignUpPage extends JFrame {
 		
 		
 		
-		CreateAccountButton.setBounds(291, 493, 85, 21);
+		CreateAccountButton.setBounds(291, 493, 205, 21);
 		contentPane.add(CreateAccountButton);
 		
 		messageLabel = new JLabel("");
@@ -152,6 +153,16 @@ public class SignUpPage extends JFrame {
 		ErrorMessage = new JLabel(" ");
 		ErrorMessage.setBounds(291, 470, 45, 13);
 		contentPane.add(ErrorMessage);
+		
+		cancelButton = new JButton("Cancel, go back !");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+			}
+		});
+		cancelButton.setBounds(291, 524, 130, 21);
+		contentPane.add(cancelButton);
 		
 		
 	}

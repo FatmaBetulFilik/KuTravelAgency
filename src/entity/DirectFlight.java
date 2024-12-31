@@ -6,7 +6,7 @@ public class DirectFlight extends Flight{
 	
 	private String arrivalCity;
 	private LocalTime departureTime;
-	private LocalTime arrivaTime;
+	private LocalTime arrivalTime;
 	
 
 
@@ -15,7 +15,7 @@ public class DirectFlight extends Flight{
 		super(flightID,airline,departureCity,classType,cost,availableSeat);
 		
 		this.arrivalCity = arrivalCity;
-		this.arrivaTime = arrivalTime;
+		this.arrivalTime = arrivalTime;
 		this.departureTime = departureTime;
 		
 		
@@ -38,12 +38,12 @@ public class DirectFlight extends Flight{
 		this.departureTime = departureTime;
 	}
 
-	public LocalTime getArrivaTime() {
-		return arrivaTime;
+	public LocalTime getArrivalTime() {
+		return arrivalTime;
 	}
 
-	public void setArrivaTime(LocalTime arrivaTime) {
-		this.arrivaTime = arrivaTime;
+	public void setArrivalTime(LocalTime arrivaTime) {
+		this.arrivalTime = arrivaTime;
 	}
 	
 	

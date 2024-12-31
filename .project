@@ -30,10 +30,5 @@
 			<type>1</type>
 			<location>C:/Users/fatma/OneDrive/Masaüstü/FinalKU_Travel_Agency_Dataset_Taxis.csv</location>
 		</link>
-		<link>
-			<name>src/user/Users.txt</name>
-			<type>1</type>
-			<location>C:/Users/fatma/OneDrive/Masaüstü/Users.txt</location>
-		</link>
 	</linkedResources>
 </projectDescription>

@@ -1,4 +1,5 @@
 package DataHandle;
+import entity.*;
 
 import java.io.File;
 import java.time.LocalTime;
@@ -13,13 +14,8 @@ public class FlightHandler {
 	
 	private static LinkedList<StopOverFlight> stopOverFlightList = new LinkedList<>();
 	private static LinkedList<DirectFlight> directFlightList = new LinkedList<>();
-
-			
-			
-		
+	private static LinkedList<Flight> combinedList = new LinkedList<>();
 	
-
-
 
 	public static void createFlightObj() {
 		
@@ -27,40 +23,41 @@ public class FlightHandler {
 	try {
 		
 		File file = new File("C:\\Users\\fatma\\OneDrive\\Masaüstü\\FinalKU_Travel_Agency_Dataset_Flights.csv");
+		
 		Scanner scanner = new Scanner(file);
-		
-		
+				
 		String headingsLine = scanner.nextLine();
 		
 		while(scanner.hasNextLine()) {
 			
-			String[] line = scanner.nextLine().split(",");
 			
-			System.out.println(line.length);
+			
+			
+			String[] line = scanner.nextLine().split(",");
 			
 			if(line.length == 15) {
 		
 				StopOverFlight stopOverFlightObj = new StopOverFlight(line[0],line[1],line[2],line[6],
 										Double.parseDouble(line[7]),Integer.parseInt(line[8]),
-										line[9],line[10],LocalTime.parse(line[11]),LocalTime.parse(line[12]),
-										LocalTime.parse(line[13]),LocalTime.parse(line[14]));
+										line[9],line[10],timeParse(line[11]),timeParse(line[12]),
+										timeParse(line[13]),timeParse(line[14]));
 			
+				
 				stopOverFlightList.add(stopOverFlightObj);
 				
 			}else {
 				
 				DirectFlight directFlightObj = new DirectFlight(line[0],line[1],line[2],
-					line[3],LocalTime.parse(line[4]),LocalTime.parse(line[5]),
+					line[3],timeParse(line[4]),timeParse(line[5]),
 					line[6],Double.parseDouble(line[7]),Integer.parseInt(line[8]));
 				
 				directFlightList.add(directFlightObj);
 				
 			}
 		}
-		
-		
-		
-		
+
+		combinedList.addAll(directFlightList);
+        combinedList.addAll(stopOverFlightList);
 		
 		
 		
@@ -71,6 +68,24 @@ public class FlightHandler {
 	}
 	
 
+	
+	
+	
+	public static LocalTime timeParse(String time) {
+		if(time.length()==5) {
+			return LocalTime.parse(time);
+		}else {
+			time = "0"+time;
+			return LocalTime.parse(time);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 
 
@@ -97,6 +112,19 @@ public class FlightHandler {
 
 	public static void setDirectFlightList(LinkedList<DirectFlight> directFlightList) {
 		FlightHandler.directFlightList = directFlightList;
+	}
+
+
+	public static LinkedList<Flight> getCombinedList() {
+		return combinedList;
+	}
+
+
+
+
+
+	public static void setCombinedList(LinkedList<Flight> combinedList) {
+		FlightHandler.combinedList = combinedList;
 	}
 
 

@@ -1,106 +1,31 @@
 package GUI;
 
+import java.awt.EventQueue;
+import java.util.List;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
+import entity.Taxi;
+import travelPackage.CustomerReservation;
 import user.Administrator;
 
-import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class CustomerMainMenuPage extends JFrame {
+
+    private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private final Action action = new SwingAction();
+    private JScrollPane scrollPaneReservations;
 
-    public CustomerMainMenuPage(String username) {
-        setTitle("Sign Up Page");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 999, 700);
-        contentPane = new JPanel();
-        setContentPane(contentPane);
-        
-        
-        
-        String[] columnNames = new String[] {"Hotel Name", "City", "Room Type", "Available Rooms", "Price per Night ($)", "Distance to Airport (km)"};
-        
-        String[][] data = new String[][] {{"melekOtel", "Istanbul", "Lüx", "5", "100", "100"}};
-
-        DefaultTableModel model = new DefaultTableModel(data, columnNames);
-        contentPane.setLayout(null);
-        
-        JScrollPane scrollPane_1 = new JScrollPane();
-        scrollPane_1.setBounds(0, 102, 702, 120);
-        contentPane.add(scrollPane_1);
-        
-        JTable table = new JTable(model);
-        table.setBounds(27, 106, 600, 200);
-                        
-       /* JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane_1.setViewportView(scrollPane);*/
-        
-        
-        
-        
-        
-        
-        
-        
-        JLabel WelcomeLabel = new JLabel("Welcome "+ Administrator.getCurrentUser());
-        WelcomeLabel.setBounds(28, 32, 348, 33);
-        WelcomeLabel.setFont(new Font("ItalicC", Font.BOLD, 25));
-        contentPane.add(WelcomeLabel);
-        
-        JButton profileButton = new JButton("User Statistics");
-        profileButton.setBounds(714, 28, 140, 21);
-        profileButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		CustomerProfilePage profilePage = new CustomerProfilePage(Administrator.getCurrentUser());
-        		dispose();
-        		profilePage.setVisible(true);
-        		
-        	}
-        });
-        contentPane.add(profileButton);
-        
-        JButton logoutButton = new JButton("logout");
-        logoutButton.setBounds(748, 63, 85, 21);
-        logoutButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		dispose();
-        	}
-        });
-        contentPane.add(logoutButton);
-        
    
-        
-        JButton BookButton = new JButton("Book new Reservation");
-        BookButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		dispose();
-                BookReservationPage bookingPage = new BookReservationPage();
-                bookingPage.setVisible(true);
-        	}
-        });
-        BookButton.setFont(new Font("Tempus Sans ITC", Font.PLAIN, 25));
-        BookButton.setBounds(566, 426, 306, 52);
-        contentPane.add(BookButton);
-        
-        
-        
-        
-       
-        
-    }
+    private static String username;
 
-    
-    
-    
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    SignUpPage frame = new SignUpPage();
+                    CustomerMainMenuPage frame = new CustomerMainMenuPage(username);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -108,12 +33,132 @@ public class CustomerMainMenuPage extends JFrame {
             }
         });
     }
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
-	}
+
+   
+    public CustomerMainMenuPage(String UserName) {
+        username = UserName;
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 999, 700);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        JButton btnNewButton = new JButton("Book Reservation");
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                BookReservationPage resPage = new BookReservationPage(username);
+                resPage.setVisible(true);
+                
+            }
+        });
+        btnNewButton.setBounds(334, 336, 150, 21);
+        contentPane.add(btnNewButton);
+       
+        scrollPaneReservations = new JScrollPane();
+        scrollPaneReservations.setBounds(50, 58, 434, 268);
+        contentPane.add(scrollPaneReservations);
+        updateReservationTable();
+        
+        JButton guncelleButton = new JButton("Update Table");
+        guncelleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updateReservationTable();
+            }
+        });
+       
+        guncelleButton.setBounds(183, 336, 129, 21);
+        contentPane.add(guncelleButton);
+        
+        JButton CancelButton = new JButton("Cancel Selected");
+        CancelButton.addActionListener(new ActionListener() {
+        	
+        	public void actionPerformed(ActionEvent e) {
+        		int selectedRow = tableModel.getRowCount() > 0 ? tableModel.getRowCount() - 1 : -1; 
+                if (selectedRow != -1) {
+                    String packageName = (String) tableModel.getValueAt(selectedRow, 0);
+                    
+                    // Find the reservation by package name
+                    CustomerReservation selectedReservation = Administrator.getCustomerReservationList()
+                        .stream()
+                        .filter(res -> res.getReservationName().equals(packageName))
+                        .findFirst()
+                        .orElse(null);
+
+                    if (selectedReservation != null) {
+
+                    	selectedReservation.setStatus("Cancelled"); 
+                        Administrator.cancelReservation(selectedReservation); 
+                        JOptionPane.showMessageDialog(null, "Reservation cancelled successfully!");
+                        updateReservationTable(); 
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error: Reservation not found.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select a reservation to cancel.");
+                }
+        		
+        		
+        	}
+        });
+        CancelButton.setBounds(60, 336, 113, 21);
+        contentPane.add(CancelButton);
+        
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		if(JOptionPane.showConfirmDialog(null, "Do you want to log out ?",UserName, JOptionPane.YES_NO_OPTION )==0) {
+            		dispose();
+            		LoginPage loginPage = new LoginPage();
+            		loginPage.setVisible(true);
+
+        		}else {
+        			
+        		}
+        		
+        	}
+        });
+        logoutButton.setBounds(863, 602, 85, 21);
+        contentPane.add(logoutButton);
+        
+        
+        
+       
+                
+
+    }
+
+    DefaultTableModel tableModel;
+    private void updateReservationTable() {
+        String[] columnTitles = new String[]{"PackageName", "TotalCost"};
+        
+        
+        List<CustomerReservation> reservations = Administrator.getCustomerReservationList();
+        
+        
+        
+        String[][] data = new String[Administrator.getCustomerReservationList().size()][2];
+
+        for (int i = 0; i < reservations.size(); i++) {
+            String resName = reservations.get(i).getReservationName();
+            
+            double cost = reservations.get(i).calculateTotalCost();
+            System.out.println(cost);
+            data[i] = new String[]{resName, String.valueOf(cost)};
+        }
+
+        tableModel = new DefaultTableModel(data, columnTitles);
+        JTable table = new JTable(tableModel);
+
+        
+        
+        scrollPaneReservations.setViewportView(table);
+
+        scrollPaneReservations.revalidate();
+        scrollPaneReservations.repaint();
+    }
 }
+
