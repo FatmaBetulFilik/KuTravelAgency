@@ -11,6 +11,8 @@ import travelPackage.CustomerReservation;
 import user.Administrator;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -122,34 +124,43 @@ public class AdminMainMenuPage extends JFrame {
 		btnNewButton_3.setBounds(198, 588, 149, 21);
 		contentPane.add(btnNewButton_3);
 		
+		
+		
+		
+		JScrollPane packagesScrollPane = new JScrollPane();
+		packagesScrollPane.setBounds(611, 373, 354, 198);
+		contentPane.add(packagesScrollPane);
+	
+		
 		JButton btnNewButton_4 = new JButton("Update Packages");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updatePackagesTable();
+				// bu butonu düzelt
 			}
 		});
 		btnNewButton_4.setBounds(734, 582, 122, 32);
 		contentPane.add(btnNewButton_4);
 		
-		JScrollPane packagesScrollPane = new JScrollPane();
-		packagesScrollPane.setBounds(611, 373, 354, 198);
-		contentPane.add(packagesScrollPane);
+		JButton Logout = new JButton("Logout");
+		Logout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int choice = JOptionPane.showConfirmDialog(null,"Dou you want to logout ?",null,JOptionPane.YES_NO_OPTION );
+
+				if (choice == JOptionPane.YES_OPTION) {
+	            dispose();
+	            LoginPage loginPage = new LoginPage();
+				loginPage.setVisible(true);
+	            
+				} else {
+				}
+				
+				
+			}
+		});
+		Logout.setBounds(10, 632, 85, 21);
+		contentPane.add(Logout);
 		
-		
-		
+
 	}
-	
-	
-	private void updatePackagesTable() {
-        String[] title = new String[]{"Package Name", "Cost"};
-        String[][] data = Administrator.travelPackageLister();
-
-        DefaultTableModel deftableModel = new DefaultTableModel(data, title);
-        JTable table = new JTable(deftableModel);
-
-        packagesScrollPane.setViewportView(table);
-
-        packagesScrollPane.revalidate();
-        packagesScrollPane.repaint();
-    }
 }

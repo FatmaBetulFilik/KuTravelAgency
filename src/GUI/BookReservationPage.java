@@ -25,6 +25,8 @@ public class BookReservationPage extends JFrame {
 
 	static String username;
 	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -163,7 +165,7 @@ public class BookReservationPage extends JFrame {
 			
 			
 			JLabel errorMessaegeLabel = new JLabel("");
-			errorMessaegeLabel.setBounds(507, 501, 405, 54);
+			errorMessaegeLabel.setBounds(38, 572, 405, 54);
 			contentPane.add(errorMessaegeLabel);
 			
 			
@@ -251,6 +253,33 @@ public class BookReservationPage extends JFrame {
 			});
 			cancelResButton.setBounds(771, 605, 192, 21);
 			contentPane.add(cancelResButton);
+			
+			JPanel panel = new JPanel();
+			panel.setBounds(475, 490, 286, 146);
+			contentPane.add(panel);
+			panel.setLayout(null);
+			
+			JLabel lblUserSpecifications = new JLabel("User Specifications: ");
+			lblUserSpecifications.setBounds(10, 10, 127, 13);
+			panel.add(lblUserSpecifications);
+			
+			textField_1 = new JTextField();
+			textField_1.setBounds(184, 44, 96, 19);
+			panel.add(textField_1);
+			textField_1.setColumns(10);
+			
+			textField_2 = new JTextField();
+			textField_2.setBounds(184, 92, 96, 19);
+			panel.add(textField_2);
+			textField_2.setColumns(10);
+			
+			JLabel lblNewLabel_1 = new JLabel("Duration of stay (in nights)");
+			lblNewLabel_1.setBounds(10, 47, 164, 13);
+			panel.add(lblNewLabel_1);
+			
+			JLabel lblNewLabel_2 = new JLabel("Estimated Distance (in km)");
+			lblNewLabel_2.setBounds(10, 95, 127, 13);
+			panel.add(lblNewLabel_2);
 			
 			
 		

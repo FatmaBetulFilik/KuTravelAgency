@@ -64,11 +64,11 @@ public class SignUpPage extends JFrame {
 		contentPane.add(UserNameLabel);
 		
 		JLabel IDLabel = new JLabel("ID");
-		IDLabel.setBounds(291, 319, 45, 13);
+		IDLabel.setBounds(291, 319, 106, 13);
 		contentPane.add(IDLabel);
 		
 		JLabel PasswordLabel = new JLabel("Password");
-		PasswordLabel.setBounds(291, 365, 45, 13);
+		PasswordLabel.setBounds(291, 365, 106, 13);
 		contentPane.add(PasswordLabel);
 		
 		JLabel PasswordConfirmationLabel = new JLabel("Confirm Password");

@@ -76,7 +76,7 @@ public class LoginPage extends JFrame {
 						
 						
 						}else {
-							String error = "Hatalı Parola";
+							String error = "Hatalı Parola1";
 							ErrorMessageLabel.setText(error);
 							PasswordText.setText("");
 							
@@ -92,7 +92,7 @@ public class LoginPage extends JFrame {
 							
 						}else {
 							
-							ErrorMessageLabel.setText("Hatalı Parola");
+							ErrorMessageLabel.setText("Hatalı Parola2");
 							PasswordText.setText("");
 							}
 						}
@@ -141,7 +141,7 @@ public class LoginPage extends JFrame {
 		contentPane.add(CreateAccountLabel);
 		
 		JLabel lblUsername = new JLabel("Username");
-		lblUsername.setBounds(302, 227, 57, 38);
+		lblUsername.setBounds(302, 227, 64, 38);
 		contentPane.add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("Password");

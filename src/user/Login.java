@@ -23,7 +23,7 @@ public class Login {
             	boolean existance = false;
             	while(scanner.hasNextLine()) {
 	
-            		String[] line = scanner.nextLine().split(" "); 
+            		String[] line = scanner.nextLine().split(","); 
         
             		if(line[0].equals(userName)){
             			if(line [1].equals(password)) {
@@ -63,7 +63,7 @@ public class Login {
     		boolean defvalue = true;
     		if (scanner.hasNextLine()) {
             	while(scanner.hasNextLine()) {
-            		String[] line = scanner.nextLine().split(" "); 
+            		String[] line = scanner.nextLine().split(","); 
             		if(line[0].equals(username)){
             			defvalue = false;}
             			}
