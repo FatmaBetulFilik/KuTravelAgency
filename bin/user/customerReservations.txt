@@ -1,0 +1,24 @@
+*
+UserName: hsfilik22
+Reservation Name: Hilal'S Weekend GetAway
+Status: Active
+Hotel :0,Marriott,Dubai,Standard,6,461.91,11.07
+Taxi :0,Vienna,Yellow Taxi,24,23.73,3.73
+Flight :0,Type: Direct,Pegasus Airlines,Istanbul,Vienna,13:00,15:00,Economy,626.91,113
+*
+UserName: bturgut22
+Reservation Name: Busra's Dream Travel
+Status: Active
+Hotel :0,Marriott,Paris,Suite,12,498.7,18.03
+Taxi :0,Madrid,Orange Taxi,26,15.37,7.35
+Flight :0,Type: Direct,AeroFly,Amsterdam,Stockholm,09:00,13:00,First Class,678.65,40
+*
+UserName: ceroltu22
+Reservation Name: Ceylan's trip
+Status: Active
+Hotel :0,Atlantis,Amsterdam,Suite,12,153.27,8.45
+Taxi :0,Madrid,Yellow Taxi,11,11.67,2.67
+Flight :0,Type: Direct,AeroFly,Dubai,Athens,21:00,02:00,Economy,1201.84,52
+Flight :1,Type: Direct,FlyDubai,Dubai,Edinburgh,12:30,19:30,Business,912.98,71
+Flight :2,Type: StopOver,Pegasus Airlines,Istanbul,Prague,Paris,07:30,09:30,12:30,14:30,First Class,1103.77,34
+Flight :3,Type: StopOver,GlobalJet,Istanbul,Amsterdam,Berlin,07:00,12:00,15:00,19:00,Economy,1398.28,111

@@ -1,5 +1,9 @@
 package user;
 
+import java.io.FileWriter;
+import java.util.ArrayList;
+
+import travelPackage.CustomerReservation;
 
 public class Customer {
 	
@@ -16,12 +20,41 @@ public class Customer {
 	private double resSuccessRate;
 	private double cancelRate;
 	
-	public Customer( String userName, String password, int ID, String name) {
+	private static CustomerReservation reservations;
+	private static ArrayList<CustomerReservation> resList = new ArrayList<>();
+	
+	
+	/**
+	 * this is the constructor method of the Customer class it initilizes the values of the attributes of the class with given parameters inside
+	 * @param userName : this is the username of the customer object usually taken from the textFields on the GUI
+	 * @param password : this is the password of the customer object usually taken from the textFields on the GUI
+	 */
+	public Customer( String userName, String password) {
 		this.userName = userName;
 		this.password = password;
-		this.ID = ID;
-		this.name = name;
+	
 	}
+	
+	
+	
+	
+
+	public static ArrayList<CustomerReservation> getResList() {
+		return resList;
+	}
+
+	public static void setResList(ArrayList<CustomerReservation> resList) {
+		Customer.resList = resList;
+	}
+
+	public static CustomerReservation getReservations() {
+		return reservations;
+	}
+
+	public static void setReservations(CustomerReservation reservations) {
+		Customer.reservations = reservations;
+	}
+
 
 	public int getID() {
 		return ID;

@@ -16,6 +16,7 @@ import entity.StopOverFlight;
 import entity.Taxi;
 import travelPackage.TravelPackage;
 import user.Administrator;
+import user.FileManager;
 
 import javax.swing.JSeparator;
 import javax.swing.JTable;
@@ -49,6 +50,9 @@ public class TravelPackageCreatePage extends JFrame {
 			}
 		});
 	}
+	
+	
+	
 	
 	public TravelPackageCreatePage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -171,19 +175,19 @@ public class TravelPackageCreatePage extends JFrame {
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					TravelPackage tp = new TravelPackage(nameText.getText());
-					Administrator.addPackagetoFile(tp);
+					
 				
 				int choice = JOptionPane.showConfirmDialog(null, "Do you want to confirm?",null,JOptionPane.YES_NO_OPTION );
 
 		          
 		        if (choice == JOptionPane.YES_OPTION) {
-		            
+		        	FileManager.addPackagetoFile(tp);
 		            JOptionPane.showMessageDialog(null, "Reservation confirmed!");
 		            dispose(); 
 		            
 		            
 		        } else {
-		        	// Burda listeye eklediğim elemanı silmem gerekecek çünkü kullanıcı onaylamıyo costu
+		        	
 		            JOptionPane.showMessageDialog(null, "Reservation canceled.");
 		        }
 					
@@ -196,11 +200,11 @@ public class TravelPackageCreatePage extends JFrame {
 			contentPane.add(btnNewButton);
 			
 			JLabel lblNewLabel = new JLabel("Enter a package name");
-			lblNewLabel.setBounds(20, 476, 115, 21);
+			lblNewLabel.setBounds(20, 476, 167, 21);
 			contentPane.add(lblNewLabel);
 			
 			nameText = new JTextField();
-			nameText.setBounds(145, 476, 96, 19);
+			nameText.setBounds(213, 476, 96, 19);
 			contentPane.add(nameText);
 			nameText.setColumns(10);
 	}

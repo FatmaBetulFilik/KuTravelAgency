@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 import travelPackage.CustomerReservation;
 import user.Administrator;
+import user.FileManager;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,6 +21,10 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JScrollBar;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -27,7 +32,10 @@ public class AdminMainMenuPage extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JScrollPane packagesScrollPane;
+	private JScrollPane scrollPane_2;
+	private JScrollPane packageScrollPane;
+	private JScrollPane usersScrollPane;
+	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -59,7 +67,7 @@ public class AdminMainMenuPage extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JButton TravelPackageCreateButton = new JButton("Create Package");
-		TravelPackageCreateButton.setBounds(872, 581, 103, 35);
+		TravelPackageCreateButton.setBounds(800, 581, 156, 35);
 		TravelPackageCreateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -71,23 +79,6 @@ public class AdminMainMenuPage extends JFrame {
 	});
 		
 		
-		String[] title = new String[] {"Users"};
-		String[] users = Administrator.getUsers();
-		
-		DefaultTableModel defuserTable = new DefaultTableModel();
-		
-		defuserTable.setColumnIdentifiers(title);
-		
-		for (String user : users) {
-            defuserTable.addRow(new Object[] {user}); // Add each username to a row in the table
-        }
-		
-		JTable userTable = new JTable(defuserTable);
-		
-	
-		JScrollPane userPane = new JScrollPane(userTable);
-		userPane.setBounds(611, 58, 345, 245);
-		contentPane.add(userPane);
 		
 		
 		contentPane.add(TravelPackageCreateButton);
@@ -101,7 +92,7 @@ public class AdminMainMenuPage extends JFrame {
 		contentPane.add(lblNewLabel_2);
 		
 		JButton btnNewButton = new JButton("Delete Package");
-		btnNewButton.setBounds(611, 581, 103, 35);
+		btnNewButton.setBounds(611, 581, 154, 35);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Go to Selected User Account");
@@ -112,9 +103,11 @@ public class AdminMainMenuPage extends JFrame {
 		lblNewLabel_3.setBounds(42, 270, 285, 13);
 		contentPane.add(lblNewLabel_3);
 		
-		JScrollPane scrollPane_2 = new JScrollPane();
+	
+		scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(42, 293, 513, 289);
 		contentPane.add(scrollPane_2);
+		updateReservationTable();
 		
 		JButton btnNewButton_2 = new JButton("Delete Reservation");
 		btnNewButton_2.setBounds(42, 588, 146, 21);
@@ -126,19 +119,20 @@ public class AdminMainMenuPage extends JFrame {
 		
 		
 		
+		String[] packagesTitle = new String[] {"Package Name", "Status"};
+		String[][] packagesData = FileManager.getPackages();
 		
-		JScrollPane packagesScrollPane = new JScrollPane();
-		packagesScrollPane.setBounds(611, 373, 354, 198);
-		contentPane.add(packagesScrollPane);
+		DefaultTableModel defPackagesTable = new DefaultTableModel(packagesData,packagesTitle);
+		 updatePackageTable();
 	
 		
 		JButton btnNewButton_4 = new JButton("Update Packages");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// bu butonu düzelt
+				updatePackageTable();
 			}
 		});
-		btnNewButton_4.setBounds(734, 582, 122, 32);
+		btnNewButton_4.setBounds(609, 626, 156, 32);
 		contentPane.add(btnNewButton_4);
 		
 		JButton Logout = new JButton("Logout");
@@ -161,6 +155,105 @@ public class AdminMainMenuPage extends JFrame {
 		Logout.setBounds(10, 632, 85, 21);
 		contentPane.add(Logout);
 		
+		
+	
+		String[] title = new String[]{"Users"};
+	    FileManager.getUser();
+	    String[][] users = FileManager.getUserNameArray();
 
+	    DefaultTableModel userTableModel = new DefaultTableModel(users, title);
+	    updateUserTable();
+		
+	   
+		usersScrollPane = new JScrollPane();
+		usersScrollPane.setBounds(613, 63, 328, 220);
+		contentPane.add(usersScrollPane);
+		
+		
+		JButton UpdateUserButton = new JButton("Update Table");
+		UpdateUserButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateUserTable();
+			}
+		});
+		UpdateUserButton.setBounds(613, 293, 118, 21);
+		contentPane.add(UpdateUserButton);
+		
+		
 	}
+
+
+	private void updateReservationTable() {
+
+	List<String[]> reservationData = new ArrayList<>();
+    try {
+        File file = new File(FileManager.getCustomerReservationsFilePath());
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line;
+        String username = "";
+        String reservationName = "";
+        String status = "";
+
+        while ((line = reader.readLine()) != null) {
+            if (line.startsWith("UserName:")) {
+                username = line.split(":")[1].trim();
+            } else if (line.startsWith("Reservation Name:")) {
+                reservationName = line.split(":")[1].trim();
+            } else if (line.startsWith("Status:")) {
+                status = line.split(":")[1].trim();
+                reservationData.add(new String[] { reservationName, status });
+            }
+        }
+        reader.close();
+    } catch (Exception e) {
+        
+    }
+
+    String[] columnTitles = new String[] { "Reservation Name", "Status" };
+    String[][] data = new String[reservationData.size()][2];
+    
+    for (int i = 0; i < reservationData.size(); i++) {
+        data[i] = reservationData.get(i);
+    }
+
+    DefaultTableModel tableModel = new DefaultTableModel(data, columnTitles);
+    JTable table = new JTable(tableModel);
+    scrollPane_2.setViewportView(table);
+
+    scrollPane_2.revalidate();
+    scrollPane_2.repaint();
+
+}	
+
+	private void updatePackageTable() {
+	    String[] columnTitles = new String[]{"Package Name", "Status"};
+	    String[][] packageData = FileManager.getPackages();
+
+	    DefaultTableModel packageTableModel = new DefaultTableModel(packageData, columnTitles);
+	    JTable packageTable = new JTable(packageTableModel);
+
+	    packageScrollPane = new JScrollPane(packageTable);
+	    packageScrollPane.setBounds(611, 373, 354, 198);
+	    contentPane.add(packageScrollPane);
+
+	    packageScrollPane.revalidate();
+	    packageScrollPane.repaint();
+	}
+
+
+
+	private void updateUserTable() {
+    String[] title = new String[]{"Users"};
+    FileManager.getUser();
+    String[][] users = FileManager.getUserNameArray();
+
+    DefaultTableModel userTableModel = new DefaultTableModel(users, title);
+    JTable userTable = new JTable(userTableModel);
+
+    usersScrollPane = new JScrollPane(userTable);
+    usersScrollPane.setViewportView(userTable);
+
+    usersScrollPane.revalidate();
+    usersScrollPane.repaint();
+}
 }

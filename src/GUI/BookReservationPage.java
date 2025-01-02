@@ -2,6 +2,8 @@ package GUI;
 import entity.*;
 import travelPackage.CustomerReservation;
 import user.Administrator;
+import user.Customer;
+import user.FileManager;
 import DataHandle.*;
 import java.awt.EventQueue;
 import javax.swing.*;
@@ -9,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 import DataHandle.TaxiHandler;
 
@@ -16,6 +20,7 @@ import javax.swing.JScrollPane;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class BookReservationPage extends JFrame {
 
@@ -23,16 +28,21 @@ public class BookReservationPage extends JFrame {
 	private JPanel contentPane;
 	private JTable table_1;
 
-	static String username;
+
 	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField durationText;
+	private JTextField distanceText;
+	
+	
+	private JComboBox<String> colorFilterBox;
+	private JComboBox<String> roomTypeFilterBox;
+	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BookReservationPage frame = new BookReservationPage(username);
+					BookReservationPage frame = new BookReservationPage();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,11 +52,11 @@ public class BookReservationPage extends JFrame {
 	}
 
 	
-	public BookReservationPage(String UserName) {
-		username = UserName;
+	public BookReservationPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 999, 700);
 		contentPane = new JPanel();
+		contentPane.setForeground(Color.RED);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -57,60 +67,90 @@ public class BookReservationPage extends JFrame {
 		
 		
 		
+		//Taxi Table creator
 		String[] TaxiPaneTitle = new String[]{"City","Taxi Type","Available Taxis","Base Fare ($)","Per KM Rate ($)"};
-		String taxiData[][] = new String[TaxiHandler.getTaxiList().size()][5];
-		int i = 0;
-		for(Taxi taxi:TaxiHandler.getTaxiList()) {
-			taxiData[i]= new String[] {taxi.getCity(),taxi.getType(),
-					String.valueOf(taxi.getAvailableTaxiNum()),
-					String.valueOf(taxi.getBaseFare()),
-					String.valueOf(taxi.getCost())};
-			i += 1;
-		}
-	
-		
+		String taxiData[][] = new String[TaxiHandler.taxiDataCreator().length][5];
 		
 		DefaultTableModel DeftaxiTable = new DefaultTableModel(taxiData,TaxiPaneTitle);
 		contentPane.setLayout(null);
 		JTable taxiTable = new JTable(DeftaxiTable);
+		
+		colorFilterBox = new JComboBox<>(new String[] { "Yellow Taxi", "Orange Taxi", "Black Taxi" });
+		colorFilterBox.setForeground(new Color(255, 0, 128));
+		colorFilterBox.setBounds(499, 238, 128, 19);
+		contentPane.add(colorFilterBox);
+		
+		colorFilterBox.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	String selected = String.valueOf(colorFilterBox.getSelectedItem());
+		    	
+		        String[][] filteredTaxiData = TaxiHandler.taxiDataCreator(selected);
+		        
+		        
+		        DefaultTableModel updatedTaxiTable = new DefaultTableModel(filteredTaxiData, TaxiPaneTitle);
+		        
+		        taxiTable.setModel(updatedTaxiTable);
+		        
+		        
+		       
+		    }
+		});
+		
 		
 		JScrollPane scrollPaneTaxis = new JScrollPane(taxiTable);
 		scrollPaneTaxis.setBounds(497, 24, 466, 213);
 		contentPane.add(scrollPaneTaxis);
 		
 		
+
 		
 		
 		
 		
+		// Hotel Table Creator
 		
 		String[] HotelPaneTitle = new String[]{"Hotel Name","City","Room Type","Available Rooms","Price per Night ($)","Distance to Airport (km)"};
 		String HotelData[][] = new String[HotelHandler.getHotelList().size()][6];
-		int j = 0;
-		for (Hotel hotel : HotelHandler.getHotelList()) {
-		    HotelData[j] = new String[] {
-		        hotel.getName(),
-		        hotel.getCity(),
-		        hotel.getRoomType(),
-		        String.valueOf(hotel.getAvailableRooms()),
-		        String.valueOf(hotel.getCost()),
-		        String.valueOf(hotel.getDistance())
-		    };
-		    j += 1;
-		}
-
 		
 		DefaultTableModel DefHotelTable = new DefaultTableModel(HotelData,HotelPaneTitle);
+		contentPane.setLayout(null);
 		JTable hotelTable = new JTable(DefHotelTable);
-	
+		
+		roomTypeFilterBox = new JComboBox<>(new String[] { "Standard", "Deluxe", "Suite" });
+		roomTypeFilterBox.setForeground(new Color(128, 0, 255));
+		roomTypeFilterBox.setBounds(11, 237, 121, 19);
+		contentPane.add(roomTypeFilterBox);
+		
+		roomTypeFilterBox.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	String selected = String.valueOf(roomTypeFilterBox.getSelectedItem());
+		    	
+		        String[][] filteredHotelData = HotelHandler.hotelDataCreator(selected);
+		        
+		        
+		        DefaultTableModel updatedHotelTable = new DefaultTableModel(filteredHotelData, HotelPaneTitle);
+		        hotelTable.setModel(updatedHotelTable);
+		       
+		    }
+		});
 		
 		JScrollPane scrollPaneHotels = new JScrollPane(hotelTable);
 		scrollPaneHotels.setBounds(10, 24, 466, 213);
 		contentPane.add(scrollPaneHotels);
 		
 	
+
 		
-	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	//Flight Table creator
 		String[] FlightPaneTitle = new String[] {
 			    "Flight ID", "Airline", "Departure City", "Arrival City",
 			    "Departure Time", "Arrival Time", "Ticket Class", "Price ($)",
@@ -165,66 +205,94 @@ public class BookReservationPage extends JFrame {
 			
 			
 			JLabel errorMessaegeLabel = new JLabel("");
-			errorMessaegeLabel.setBounds(38, 572, 405, 54);
+			errorMessaegeLabel.setBounds(38, 591, 405, 35);
 			contentPane.add(errorMessaegeLabel);
 			
 			
 			JButton SelectionButton = new JButton("Confirm Selected");
 			SelectionButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (taxiTable.getSelectedRowCount() == 0) {
-			        	errorMessaegeLabel.setText("Please select at least one taxi.");
-			            return;
-			        }
-			        if (hotelTable.getSelectedRowCount() == 0) {
-			        	errorMessaegeLabel.setText("Please select at least one hotel.");
-			            return;
-			        }
-			        if (FlightTable.getSelectedRowCount() == 0) {
-			        	errorMessaegeLabel.setText("Please select at least one flight.");
-			            return;
-			        }
-			        if(textField.getText().length() == 0) {
-			        	errorMessaegeLabel.setText("Please enter a valid PackageName");
-			        	return;}
+					
+					try {
+					
+					String durationOfStay = durationText.getText();
+					String distance  = distanceText.getText();	
+					
+					
+					
+					if(durationOfStay.isEmpty()) {
+						errorMessaegeLabel.setText("Please specify the duration of your stay in nights !");
+						
+					}else {
+						if(distance.isEmpty()) {
+							errorMessaegeLabel.setText("Please specify the distance will be traveled by the taxi !");}
+							
+						else {
+							
+							if (taxiTable.getSelectedRowCount() == 0) {
+					        	errorMessaegeLabel.setText("Please select at least one taxi.");
+					            return;
+					        }
+					        if (hotelTable.getSelectedRowCount() == 0) {
+					        	errorMessaegeLabel.setText("Please select at least one hotel.");
+					            return;
+					        }
+					        if (FlightTable.getSelectedRowCount() == 0) {
+					        	errorMessaegeLabel.setText("Please select at least one flight.");
+					            return;
+					        }
+					        if(textField.getText().length() == 0) {
+					        	errorMessaegeLabel.setText("Please enter a valid PackageName");
+					        	return;}
 
-			        
-			      
+					        
+					            CustomerReservation res = new CustomerReservation();
+					            res.setReservationName(textField.getText());
+					            
+					  
+					            for (int i : taxiTable.getSelectedRows()) {
+					         
+					                res.getReservationTaxiList().add(TaxiHandler.getTaxiList().get(i));
+					              
+					            }
 
-			        
-			            CustomerReservation res = new CustomerReservation();
-			    
-			            for (int i : taxiTable.getSelectedRows()) {
-			                res.getReservationTaxiList().add(TaxiHandler.getTaxiList().get(i));
-			            }
+					            for (int j : hotelTable.getSelectedRows()) {
+					    
+					                res.getReservationHotelList().add(HotelHandler.getHotelList().get(j));
+					            }
 
-			            for (int j : hotelTable.getSelectedRows()) {
-			                res.getReservationHotelList().add(HotelHandler.getHotelList().get(j));
-			            }
+					            for (int k : FlightTable.getSelectedRows()) {
+					            	
+					                res.getReservationFlightList().add(FlightHandler.getCombinedList().get(k));
+					            }
 
-			            for (int k : FlightTable.getSelectedRows()) {
-			                res.getReservationFlightList().add(FlightHandler.getCombinedList().get(k));
-			            }
-
-			            res.setReservationName(textField.getText());
-			            Administrator.getCustomerReservationList().add(res);
-			            
-			            
-			            
-			       int choice = JOptionPane.showConfirmDialog(null,  "Your package costs $" + res.calculateTotalCost() + 
-			            		". Do you want to confirm?","Confirm Package",JOptionPane.YES_NO_OPTION );
-
-			          
-			        if (choice == JOptionPane.YES_OPTION) {
-			            
-			            JOptionPane.showMessageDialog(null, "Reservation confirmed!");
-			            dispose(); 
-			            
-			            
-			        } else {
-			        	// Burda listeye eklediğim elemanı silmem gerekecek çünkü kullanıcı onaylamıyo costu
-			            JOptionPane.showMessageDialog(null, "Reservation canceled.");
-			        }
+					           
+					            
+					            
+					 
+					            
+					            
+					        int choice = JOptionPane.showConfirmDialog(null,  "Your package costs $" +
+					        res.calculateTotalCost(Integer.parseInt(durationOfStay),Double.parseDouble(distance))
+					            	+". Do you want to confirm?",null,JOptionPane.YES_NO_OPTION );
+					            
+					        if (choice == JOptionPane.YES_OPTION) {
+					        	FileManager.WriteToCustomerReservationsFile(Administrator.currentCustomer, res);
+					            dispose();
+					            }
+					        
+					        else {}
+							
+						}
+						
+						
+						
+					
+					}}	catch(Exception exp){
+						exp.getMessage();
+				}
+						
+				
 			    }
 			});
 				
@@ -251,11 +319,11 @@ public class BookReservationPage extends JFrame {
 					
 				}
 			});
-			cancelResButton.setBounds(771, 605, 192, 21);
+			cancelResButton.setBounds(728, 632, 247, 21);
 			contentPane.add(cancelResButton);
 			
 			JPanel panel = new JPanel();
-			panel.setBounds(475, 490, 286, 146);
+			panel.setBounds(441, 480, 286, 146);
 			contentPane.add(panel);
 			panel.setLayout(null);
 			
@@ -263,15 +331,15 @@ public class BookReservationPage extends JFrame {
 			lblUserSpecifications.setBounds(10, 10, 127, 13);
 			panel.add(lblUserSpecifications);
 			
-			textField_1 = new JTextField();
-			textField_1.setBounds(184, 44, 96, 19);
-			panel.add(textField_1);
-			textField_1.setColumns(10);
+			durationText = new JTextField();
+			durationText.setBounds(184, 44, 96, 19);
+			panel.add(durationText);
+			durationText.setColumns(10);
 			
-			textField_2 = new JTextField();
-			textField_2.setBounds(184, 92, 96, 19);
-			panel.add(textField_2);
-			textField_2.setColumns(10);
+			distanceText = new JTextField();
+			distanceText.setBounds(184, 92, 96, 19);
+			panel.add(distanceText);
+			distanceText.setColumns(10);
 			
 			JLabel lblNewLabel_1 = new JLabel("Duration of stay (in nights)");
 			lblNewLabel_1.setBounds(10, 47, 164, 13);
@@ -280,6 +348,17 @@ public class BookReservationPage extends JFrame {
 			JLabel lblNewLabel_2 = new JLabel("Estimated Distance (in km)");
 			lblNewLabel_2.setBounds(10, 95, 127, 13);
 			panel.add(lblNewLabel_2);
+			
+			JLabel lblNewLabel_3 = new JLabel("Please select room type to see available hotels !");
+			lblNewLabel_3.setBackground(Color.ORANGE);
+			lblNewLabel_3.setForeground(Color.BLACK);
+			lblNewLabel_3.setBounds(147, 242, 286, 13);
+			contentPane.add(lblNewLabel_3);
+			
+			JLabel lblNewLabel_4 = new JLabel("Please specify a taxi color to see availiable taxis !");
+			lblNewLabel_4.setBackground(Color.ORANGE);
+			lblNewLabel_4.setBounds(646, 240, 294, 13);
+			contentPane.add(lblNewLabel_4);
 			
 			
 		

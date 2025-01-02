@@ -11,12 +11,28 @@ public class StopOverFlight extends Flight{
 	private LocalTime leg2ArriveTime;
 	
 	
-	
-	
-	
-
-
-
+	/**
+	 * StopOverFlight(String flightID, String airline, String departureCity, String classType, 
+	 * double cost, int availableSeat, String stopOverCity, String finalArrivalCity, 
+	 * LocalTime leg1DepTime, LocalTime leg1ArriveTime, LocalTime leg2DepTime, LocalTime leg2ArriveTime) 
+	 * constructor initializes a StopOverFlight object with the specified details.
+	 * 
+	 * This constructor also invokes the parent class constructor to initialize shared attributes 
+	 * like flightID, airline, departureCity, classType, cost, and availableSeat.
+	 * 
+	 * @param flightID : The unique identifier for the flight.
+	 * @param airline : The name of the airline operating the flight.
+	 * @param departureCity : The city from which the flight departs.
+	 * @param classType : The class type of the flight (e.g., Economy, Business).
+	 * @param cost : The cost of the flight.
+	 * @param availableSeat : The number of available seats on the flight.
+	 * @param stopOverCity : The city where the flight stops over before reaching its final destination.
+	 * @param finalArrivalCity : The city where the flight ends its journey.
+	 * @param leg1DepTime : The departure time for the first leg of the flight.
+	 * @param leg1ArriveTime : The arrival time for the first leg of the flight.
+	 * @param leg2DepTime : The departure time for the second leg of the flight.
+	 * @param leg2ArriveTime : The arrival time for the second leg of the flight.
+	 */
 
 	public StopOverFlight(String flightID,String airline,
 			String departureCity,String classType,double cost,int availableSeat,

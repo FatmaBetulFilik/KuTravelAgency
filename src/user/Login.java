@@ -14,6 +14,14 @@ public class Login {
 	private static File file = new File(path);
 
 	
+	/**
+	 * registrationSucces(String userName, String password) method verifies if a user exists in the file 
+	 * specified by the static path and checks if the given username and password match.
+	 * 
+	 * @param userName : The username provided for login.
+	 * @param password : The password provided for login.
+	 * @return true if the username and password match a record in the file, false otherwise.
+	 */
 	
 	public static boolean registrationSucces(String userName, String password) {
     	
@@ -45,7 +53,16 @@ public class Login {
     }
 	
 	
-	
+	/**
+	 * addUserToFile(String path, String userName, String password, String name, int ID) method adds a new user 
+	 * to the file specified by the given path. It appends the user information to the file.
+	 * 
+	 * @param path : The file path where the user data should be written.
+	 * @param userName : The username of the new user.
+	 * @param password : The password of the new user.
+	 * @param name : The name of the new user.
+	 * @param ID : The ID of the new user.
+	 */
     
     public static void addUserToFile(String path, String userName, String password, String name, int ID) {
     	try (FileWriter writer = new FileWriter(path, true)){
@@ -55,7 +72,13 @@ public class Login {
     	}
     
     
-    
+    /**
+     * existenceInFile(String username) method checks whether a given username exists in the file 
+     * specified by the static path.
+     * 
+     * @param username : The username to check for existence.
+     * @return true if the username does not exist in the file, false if it does exist.
+     */
     public static boolean existenceInFile(String username) {
     		
     	try(Scanner scanner = new Scanner(file)) {

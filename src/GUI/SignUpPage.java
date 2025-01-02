@@ -116,8 +116,6 @@ public class SignUpPage extends JFrame {
 					
 					if(Login.existenceInFile(UserNameText.getText())) {	
 						
-					Customer newCustomer = new Customer(UserNameText.getText(),PasswordText.getText(),Integer.parseInt(IDText.getText()),NameText.getText());
-					newCustomer.setID(Integer.parseInt(IDText.getText()));
 					Login.addUserToFile(Login.getFile().getPath(),UserNameText.getText(), PasswordText.getText(),NameText.getText(),Integer.parseInt(IDText.getText()));
 	        		dispose();
 	        		
@@ -129,7 +127,7 @@ public class SignUpPage extends JFrame {
 					
 									
 				}else {
-					mesLabel.setText("Passwords don not match !");
+					mesLabel.setText("Passwords do not match !");
 					PasswordText.setText("");
 					ConfirmationPasswordText.setText("");
 				}}}

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import DataHandle.*;
 import entity.*;
+import travelPackage.CustomerReservation;
 import user.*;
 
 
@@ -23,9 +24,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		TaxiHandler.CreateTaxiObj();
-		HotelHandler.createHotelObj();
-		FlightHandler.createFlightObj();
+	
+		FileManager.customerListCreator();
+		TaxiHandler.CreateTaxiObjList();
+		HotelHandler.createHotelObjList();
+		FlightHandler.createFlightObjList();
 		
 		
 		 LoginPage loginPage = new LoginPage();

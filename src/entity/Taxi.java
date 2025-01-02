@@ -11,7 +11,18 @@ public class Taxi extends BaseEntity {
 	
 
 	
-
+	/**
+	 * Taxi(String city, String type, int availableTaxiNum, double baseFare, double cost) 
+	 * constructor initializes a Taxi object with the specified details.
+	 * 
+	 * This constructor also invokes the parent class constructor to initialize the cost attribute.
+	 * 
+	 * @param city : The city where the taxi service is available.
+	 * @param type : The type of taxi (e.g., Sedan, SUV, Mini).
+	 * @param availableTaxiNum : The number of available taxis in the city.
+	 * @param baseFare : The base fare for the taxi service.
+	 * @param cost : The cost per unit distance or trip.
+	 */
 
 	public Taxi(String city,String type,int availableTaxiNum, double baseFare,double cost) {
 		super(cost);
@@ -22,14 +33,6 @@ public class Taxi extends BaseEntity {
 	
 	}
 
-	
-	
-	
-        
-	
-	
-	
-	
 	
 	public String getCity() {
 		return city;

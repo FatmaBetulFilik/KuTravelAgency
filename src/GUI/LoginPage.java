@@ -6,10 +6,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import user.Administrator;
-import user.Login;
-
 import javax.swing.JSplitPane;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -26,9 +22,7 @@ public class LoginPage extends JFrame {
 	private JTextField UserNameText;
 	private JPasswordField PasswordText;
 
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -76,7 +70,7 @@ public class LoginPage extends JFrame {
 						
 						
 						}else {
-							String error = "Hatalı Parola1";
+							String error = "Wrong Password";
 							ErrorMessageLabel.setText(error);
 							PasswordText.setText("");
 							
@@ -84,15 +78,19 @@ public class LoginPage extends JFrame {
 					}else {
 						if(!Login.existenceInFile(UserNameText.getText())) {
 						if(Login.registrationSucces(UserNameText.getText(), PasswordText.getText())) {
-							Administrator.setCurrentCustomer(UserNameText.getText(), PasswordText.getText());
-							Administrator.setCurrentUser(UserNameText.getText());
-							CustomerMainMenuPage mainMenu = new CustomerMainMenuPage(Administrator.getCurrentUser());
+							
+							Administrator.setCurrentUsersName(UserNameText.getText());
+							
+							Administrator.currentCustomer = new Customer(UserNameText.getText(), PasswordText.getText());
+							
+							
+							CustomerMainMenuPage mainMenu = new CustomerMainMenuPage();
 							dispose();
 							mainMenu.setVisible(true);
 							
 						}else {
 							
-							ErrorMessageLabel.setText("Hatalı Parola2");
+							ErrorMessageLabel.setText("Wrong Password");
 							PasswordText.setText("");
 							}
 						}

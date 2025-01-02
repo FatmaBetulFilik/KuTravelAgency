@@ -17,7 +17,22 @@ public class FlightHandler {
 	private static LinkedList<Flight> combinedList = new LinkedList<>();
 	
 
-	public static void createFlightObj() {
+	/**
+	 * createFlightObjList() method reads flight data from a CSV file and creates either DirectFlight or StopOverFlight 
+	 * objects based on the number of columns in each row. The method processes each row of the CSV file, and depending on 
+	 * the number of values in the row, it creates the appropriate type of flight object.
+	 * 
+	 * If the row contains 15 values, a StopOverFlight object is created and added to the stopOverFlightList. Otherwise, 
+	 * a DirectFlight object is created and added to the directFlightList.
+	 * 
+	 * After all flights are processed, the method combines the lists of DirectFlight and StopOverFlight into a 
+	 * combined list containing all the flights.
+	 * 
+	 * @throws Exception : In case of issues during file reading or data parsing, an exception will be caught and 
+	 *                     the error message will be printed.
+	 */
+	
+	public static void createFlightObjList() {
 		
 		
 	try {
@@ -69,7 +84,14 @@ public class FlightHandler {
 	
 
 	
-	
+	/**
+	 * timeParse(String time) method parses a time string in the format HH:MM into a LocalTime object. If the time string 
+	 * has a length of 5 characters (e.g., "10:30"), it is parsed directly. If the time string has a length of 4 characters 
+	 * (e.g., "1030"), a leading zero is added to the time string before parsing it into a LocalTime object.
+	 * 
+	 * @param time : A string representing the time in HH:MM or HHMM format.
+	 * @return a LocalTime object representing the parsed time.
+	 */
 	
 	public static LocalTime timeParse(String time) {
 		if(time.length()==5) {
